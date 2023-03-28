@@ -1,4 +1,6 @@
 import os
+from typing import Optional
+
 import fire
 import setproctitle
 import time
@@ -19,7 +21,7 @@ DEFAULT_RELAYS = [
 
 def main(
     twitter_handle,
-    relays=None,
+    relays: Optional[str] = None,
     relay_timeout=6,
     poll_interval_in_sec=300,
     nostr_pk_hex_env="NOSTR_PK_HEX"
@@ -31,6 +33,9 @@ def main(
 
     if relays is None:
         relays = DEFAULT_RELAYS
+    else:
+        # relays can be a comma-separated string of relays
+        relays = relays.split(',')
 
     # set up relay manager
     relay_manager = RelayManager(timeout=relay_timeout)
